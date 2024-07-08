@@ -1,0 +1,44 @@
+name: Lint
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    services:
+      web:
+        image: python:3.12
+        options: --entrypoint bash
+
+    steps:
+    # Checkout the repository
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Set up Node.js environment for the frontend
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    # Install dependencies and run ESLint on the frontend
+    - name: Install dependencies and run ESLint
+      working-directory: ./app
+      run: |
+        npm install
+        npm run lint
+
+    # Set up Python environment for the backend
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.12'
+
+    # Install dependencies and run Flake8 and Black on the backend
+    - name: Install dependencies and run Flake8 and Black
+      working-directory: ./server
+      run: |
+        pip install flake8 black
+        flake8 .
+        black --check .
