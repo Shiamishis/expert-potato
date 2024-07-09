@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 function App() {
   const [data, setData] = useState(null);
@@ -6,18 +6,18 @@ function App() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('/hello')
-      .then(response => {
+    fetch("/hello")
+      .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         return response.text();
       })
-      .then(text => {
+      .then((text) => {
         setData(text);
         setLoading(false);
       })
-      .catch(error => {
+      .catch((error) => {
         setError(error);
         setLoading(false);
       });
