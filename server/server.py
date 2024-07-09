@@ -3,10 +3,10 @@ from flask import Flask
 app = Flask(__name__)
 
 
-@app.route('/hello')
+@app.route("/hello")
 def home():
-   return "Hello, World!"
+    return "Hello, World!"
 
 
-if __name__ == '__main__':
-   app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
