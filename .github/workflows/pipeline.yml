@@ -40,5 +40,4 @@ jobs:
       working-directory: ./server
       run: |
         pip install flake8 black
-        cd server
         flake8 .
