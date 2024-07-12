@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from sqlalchemy import create_engine, MetaData
+from sqlalchemy import MetaData
 
 from models import Rating, Review, Recipe, Group, User, db
 from sqlalchemy import inspect
@@ -78,7 +78,6 @@ def check_tables():
     return ', '.join(tables)
 
 @main.route('/tables', methods=['GET'])
-
 def list_tables():
     metadata = MetaData()
     # Reflect the database tables
