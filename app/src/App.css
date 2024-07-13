@@ -36,3 +36,52 @@
     transform: rotate(360deg);
   }
 }
+
+.login-box {
+  border-radius: 25px;
+  width: 20%;
+  height: 450px;
+  margin: auto;
+}
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.input-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+}
+.form-group {
+  width: 80%; /* Ensure the form group takes the full width */
+  margin-top: 20px; /* Add space between form groups */
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 8px;
+}
+.form-group input[type="text"],
+.form-group input[type="password"] {
+  background-color: lightpink;
+  border-radius: 20px;
+  border: none;
+}
+input::placeholder {
+  color: rgb(93, 0, 255);
+}
+.potato {
+  transition: transform 0.5s ease-in-out;
+}
+button {
+  cursor: pointer;
+}
+

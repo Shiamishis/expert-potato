@@ -1,7 +1,21 @@
 {
-  "extends": ["react-app", "plugin:prettier/recommended"],
+  "extends": ["plugin:prettier/recommended"],
   "plugins": ["react", "prettier"],
+  "parser": "babel-eslint",
+  "env": {
+    "jest": true,
+    "browser": true
+  },
   "rules": {
-    "prettier/prettier": "error"
+    "prettier/prettier": [
+      "warn",
+      {
+        "endOfLine": "auto"
+      },
+      {
+        "printWidth": 300
+      }
+    ],
+    "max-len": "off"
   }
 }
