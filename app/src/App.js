@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import potato from "./images/potato.svg";
 function Router(props) {
@@ -162,25 +162,111 @@ function Sign(props) {
   );
 }
 
-function SideBar() {
-  return <div>This is the side bar</div>;
+function SideBar(props) {
+  const setGroupInfo = props.setGroupInfo;
+  const [selectedGroup, setSelectedGroup] = useState(null);
+  const styles = {
+    sidebar: {
+      width: "35vh",
+      backgroundColor: "#f4f4f4",
+      padding: "15px",
+      borderRight: "1px solid #ccc",
+    },
+    header: {
+      margin: "0 0 10px 0",
+      fontSize: "18px",
+    },
+    list: {
+      listStyleType: "none",
+      padding: "0",
+      overflowY: "auto",
+      maxHeight: "90vh",
+    },
+    listItem: {
+      height: "10vh",
+    },
+    button: {
+      background: "lightblue",
+      borderRadius: "20px",
+      display: "block",
+      width: "100%",
+      height: "90%",
+      border: "none",
+    },
+    selectedButton: {
+      background: "blue",
+      color: "white",
+    },
+  };
+  const groups = ["Group 1", "Group 2", "Group 3"];
+  function selectGroup(index) {
+    setSelectedGroup(groups[index]);
+    setGroupInfo("This is " + groups[index]);
+  }
+  return (
+    <div style={styles.sidebar}>
+      <div style={{ display: "flex", alignContent: "center" }}>
+        <h2 style={styles.header}>Groups</h2>
+        <button
+          style={{
+            marginLeft: "10px",
+            border: "none",
+            borderRadius: "50%",
+            backgroundColor: "lightblue",
+            height: "24px",
+            width: "24px",
+          }}
+        >
+          +
+        </button>
+      </div>
+      <ul style={styles.list}>
+        {groups.map((group, index) => (
+          <li key={index} style={styles.listItem}>
+            <button
+              style={{
+                ...styles.button,
+                ...(selectedGroup === group ? styles.selectedButton : {}),
+              }}
+              onClick={() => selectGroup(index)}
+            >
+              {group}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
-function SelectedGroup() {
-  return <h1>This is the selected group</h1>;
+function SelectedGroup(props) {
+  const groupInfo = props.groupInfo;
+  const setGroupInfo = props.setGroupInfo;
+  return <h1>{groupInfo}</h1>;
 }
 
 function Main() {
+  const [groupInfo, setGroupInfo] = useState("");
   return (
-    <div>
-      <SideBar />
-      <SelectedGroup />
+    <div style={{ display: "flex", height: "100vh" }}>
+      <SideBar setGroupInfo={setGroupInfo} />
+      <SelectedGroup groupInfo={groupInfo} setGroupInfo={setGroupInfo} />
     </div>
   );
 }
 
 function App() {
   const [sign, setSign] = useState(false);
+  useEffect(() => {
+    const savedSign = localStorage.getItem("sign");
+    if (savedSign) {
+      setSign(JSON.parse(savedSign));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("sign", JSON.stringify(sign));
+  }, [sign]);
   return <Router sign={sign} setSign={setSign} />;
 }
 
