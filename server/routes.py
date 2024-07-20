@@ -1,3 +1,4 @@
+import logging
 from flask import Blueprint, jsonify, request
 from sqlalchemy import MetaData
 
@@ -5,19 +6,45 @@ from models import Rating, Review, Recipe, Group, User, db
 from sqlalchemy import inspect
 
 main = Blueprint('main', __name__)
+logging.basicConfig(level=logging.DEBUG)
 
 @main.route('/users', methods=['POST'])
 def add_user():
     data = request.get_json()
-    new_user = User(name=data['name'], surname=data['surname'])
+    logging.debug(f"Received data: {data}")
+    new_user = User(username=data['username'], password=data['password'], email="email", groups=[])
     db.session.add(new_user)
     db.session.commit()
     return jsonify(new_user.to_dict()), 201
+
+@main.route('/users/login', methods=['POST'])
+def login_user():
+    data = request.get_json()
+    logging.debug(f"Received data: {data}")
+    user = User.query.filter_by(username=data['username'], password=data['password']).first()
+    logging.debug("----User login----")
+    logging.debug(user.to_dict())
+    logging.debug("------------------")
+    if user:
+        return jsonify(user.to_dict()), 200
+    else:
+        return jsonify({"error": "Invalid credentials"})
 
 @main.route('/users', methods=['GET'])
 def get_users():
     users = User.query.all()
     return jsonify([user.to_dict() for user in users])
+
+@main.route('/users/groups', methods=['GET'])
+def get_users_groups():
+    user_id = request.args.get('user_id')
+    logging.debug(f"Received user_id: {user_id}")
+    user = User.query.get(user_id)
+    if user:
+        response = jsonify([group.to_dict() for group in user.groups])
+        return response
+    else:
+        return jsonify({"error": "User not found"}), 404
 
 @main.route('/groups', methods=['POST'])
 def add_group():
