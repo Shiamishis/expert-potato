@@ -9,12 +9,13 @@ user_group = db.Table('user_group',
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), nullable=False)
-    surname = db.Column(db.String(80), nullable=False)
+    username = db.Column(db.String(80), nullable=False, autoincrement=True)
+    email = db.Column(db.String(80), nullable=False)
+    password = db.Column(db.String(80), nullable=False)
     groups = db.relationship('Group', secondary=user_group, backref=db.backref('users', lazy=True))
 
     def to_dict(self):
-        return {"id": self.id, "name": self.name, "surname": self.surname}
+        return {"id": self.id, "username": self.username, "email": self.email}
 
 class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
