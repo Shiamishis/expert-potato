@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import {type} from "@testing-library/user-event/dist/type";
 
 function SideBar(props) {
   const setGroupInfo = props.setGroupInfo;
+  const setCreateJoin = props.setCreateJoin;
   const userId = props.userId;
   console.log("userId: " + userId);
   const [selectedGroup, setSelectedGroup] = useState(null);
@@ -54,6 +54,11 @@ function SideBar(props) {
     setSelectedGroup(groups[index]);
     setGroupInfo("This is " + groups[index]);
   }
+
+  function goToCreateJoin() {
+    setCreateJoin(true);
+  }
+
   return (
     <div style={styles.sidebar}>
       <div style={{ display: "flex", alignContent: "center" }}>
@@ -67,6 +72,7 @@ function SideBar(props) {
             height: "24px",
             width: "24px",
           }}
+          onClick={goToCreateJoin}
         >
           +
         </button>
