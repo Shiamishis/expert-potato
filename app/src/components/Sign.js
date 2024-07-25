@@ -107,10 +107,6 @@ function Sign(props) {
         });
         console.log(response);
         const d = await response.json();
-        const body = d.body;
-        console.log("---------------------");
-        console.log(body);
-        console.log("---------------------");
         const userId = d.id;
         console.log("User id after signing in:" + userId);
         if (response.ok) {
