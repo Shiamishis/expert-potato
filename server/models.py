@@ -39,9 +39,6 @@ class Group(db.Model):
         characters = string.ascii_letters + string.digits
         return ''.join(random.choices(characters, k=length))
 
-    def to_dict(self):
-        return {"id": self.id, "name": self.name}
-
 
 class Recipe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
