@@ -1,4 +1,5 @@
 import logging
+
 from flask import Blueprint, jsonify, request
 from sqlalchemy import MetaData
 
@@ -22,13 +23,10 @@ def login_user():
     data = request.get_json()
     logging.debug(f"Received data: {data}")
     user = User.query.filter_by(username=data['username'], password=data['password']).first()
-    logging.debug("----User login----")
-    logging.debug(user.to_dict())
-    logging.debug("------------------")
     if user:
         return jsonify(user.to_dict()), 200
     else:
-        return jsonify({"error": "Invalid credentials"})
+        return jsonify({"error": "Invalid credentials"}), 404
 
 @main.route('/users', methods=['GET'])
 def get_users():
@@ -40,19 +38,47 @@ def get_users_groups():
     user_id = request.args.get('user_id')
     logging.debug(f"Received user_id: {user_id}")
     user = User.query.get(user_id)
+    logging.debug(f"Received user: {user.to_dict()}")
     if user:
         response = jsonify([group.to_dict() for group in user.groups])
         return response
     else:
         return jsonify({"error": "User not found"}), 404
 
-@main.route('/groups', methods=['POST'])
+@main.route('/groups/create', methods=['POST'])
 def add_group():
+    logging.debug('Reached route')
     data = request.get_json()
-    new_group = Group(name=data['name'])
+    logging.debug(data)
+    name = data['info']
+    user_id = data['userId']
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+    new_group = Group(name=name)
+    user.groups.append(new_group)
+    logging.debug(new_group.to_dict())
     db.session.add(new_group)
     db.session.commit()
     return jsonify(new_group.to_dict()), 201
+
+@main.route('/groups/join', methods=['POST'])
+def join_group():
+    data = request.get_json()
+    code_number = data['info']
+    logging.debug(f"Received code_number: {code_number}")
+    user_id = data['userId']
+    group = Group.query.filter_by(code_number=code_number).first()
+    logging.debug(f"Group: {group.to_dict()}")
+    if group:
+        user = User.query.get(user_id)
+        if not user:
+            return jsonify({"error": "User not found"}), 404
+        user.groups.append(group)
+        db.session.commit()
+        return jsonify(group.to_dict()), 200
+    else:
+        return jsonify({"error": "Group not found"}), 404
 
 @main.route('/groups', methods=['GET'])
 def get_groups():
