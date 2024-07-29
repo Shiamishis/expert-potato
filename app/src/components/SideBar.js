@@ -39,20 +39,25 @@ function SideBar(props) {
       color: "white",
     },
   };
-  const [groups, setGroups] = useState([]);
+  const groups = props.groups;
+  const setGroups = props.setGroups;
   const getGroupsOfUser = async () => {
+    console.log("Reached getGroupsOfUser method");
     const response = await fetch(`/users/groups?user_id=${userId}`, {
       method: "GET",
     });
-    console.log(response);
-    setGroups(await response.json());
+    const groupsOfUser = await response.json();
+    console.log("Groups of user: " + groupsOfUser);
+    setGroups(groupsOfUser);
+    console.log("Number of groups: " + groups.length);
+    console.log("The groups after rendering sidebar are: " + groups);
   };
   useEffect(() => {
     getGroupsOfUser();
   }, []);
   function selectGroup(index) {
     setSelectedGroup(groups[index]);
-    setGroupInfo("This is " + groups[index]);
+    setGroupInfo("This is " + groups[index]["name"]);
   }
 
   function goToCreateJoin() {
@@ -80,19 +85,26 @@ function SideBar(props) {
       <ul style={styles.list}>
         {groups === []
           ? []
-          : groups.map((group, index) => (
-              <li key={index} style={styles.listItem}>
-                <button
-                  style={{
-                    ...styles.button,
-                    ...(selectedGroup === group ? styles.selectedButton : {}),
-                  }}
-                  onClick={() => selectGroup(index)}
-                >
-                  {group}
-                </button>
-              </li>
-            ))}
+          : groups.map((group, index) => {
+              console.log(
+                `Group at index ${index}:`,
+                group,
+                `Type: ${typeof group}`
+              );
+              return (
+                <li key={index} style={styles.listItem}>
+                  <button
+                    style={{
+                      ...styles.button,
+                      ...(selectedGroup === group ? styles.selectedButton : {}),
+                    }}
+                    onClick={() => selectGroup(index)}
+                  >
+                    {group["name"]}
+                  </button>
+                </li>
+              );
+            })}
       </ul>
     </div>
   );

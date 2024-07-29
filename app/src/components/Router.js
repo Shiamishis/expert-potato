@@ -6,6 +6,7 @@ function Router(props) {
   const [userId, setUserId] = useState(-1);
   const sign = props.sign;
   if (sign) {
+    console.log("UserId before rendering Main: " + userId);
     return <Main userId={userId} />;
   } else {
     return <Sign setSign={props.setSign} setUserId={setUserId} />;
