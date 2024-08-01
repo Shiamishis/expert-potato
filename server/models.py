@@ -1,6 +1,5 @@
 import string
 import random
-import uuid
 
 from flask_sqlalchemy import SQLAlchemy
 
