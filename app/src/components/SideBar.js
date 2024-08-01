@@ -5,7 +5,10 @@ function SideBar(props) {
   const setCreateJoin = props.setCreateJoin;
   const userId = props.userId;
   console.log("userId: " + userId);
-  const [selectedGroup, setSelectedGroup] = useState(null);
+  const [selectedGroup, setSelectedGroup] = [
+    props.selectedGroup,
+    props.setSelectedGroup,
+  ];
   const styles = {
     sidebar: {
       width: "35vh",
@@ -86,11 +89,6 @@ function SideBar(props) {
         {groups === []
           ? []
           : groups.map((group, index) => {
-              console.log(
-                `Group at index ${index}:`,
-                group,
-                `Type: ${typeof group}`
-              );
               return (
                 <li key={index} style={styles.listItem}>
                   <button

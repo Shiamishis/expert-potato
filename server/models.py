@@ -1,5 +1,6 @@
 import string
 import random
+import uuid
 
 from flask_sqlalchemy import SQLAlchemy
 
@@ -12,11 +13,17 @@ user_group = db.Table('user_group',
 
 
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False, unique=True)
     username = db.Column(db.String(80), nullable=False, autoincrement=True)
     email = db.Column(db.String(80), nullable=False)
     password = db.Column(db.String(80), nullable=False)
     groups = db.relationship('Group', secondary=user_group, backref=db.backref('users', lazy=True))
+
+    def __init__(self, username, email, password):
+        self.username = username
+        self.email = email
+        self.password = password
+        self.groups = []
 
     def to_dict(self):
         return {"id": self.id, "username": self.username, "email": self.email}
@@ -29,11 +36,12 @@ class Group(db.Model):
     recipes = db.relationship('Recipe', backref='group', lazy=True)
 
     def to_dict(self):
-        return {"id": self.id, "code_number": self.code_number, "name": self.name}
+        return {"id": self.id, "code_number": self.code_number, "name": self.name, "recipes": [recipe.to_dict() for recipe in self.recipes]}
 
     def __init__(self, name):
         self.name = name
         self.code_number = self.generate_code_number()
+        self.recipes = []
 
     def generate_code_number(self, length=100):
         characters = string.ascii_letters + string.digits

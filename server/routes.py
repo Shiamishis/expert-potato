@@ -13,7 +13,7 @@ logging.basicConfig(level=logging.DEBUG)
 def add_user():
     data = request.get_json()
     logging.debug(f"Received data: {data}")
-    new_user = User(username=data['username'], password=data['password'], email="email", groups=[])
+    new_user = User(username=data['username'], password=data['password'], email="email")
     db.session.add(new_user)
     db.session.commit()
     return jsonify(new_user.to_dict()), 201
@@ -45,9 +45,19 @@ def get_users_groups():
     else:
         return jsonify({"error": "User not found"}), 404
 
+@main.route('/groups', methods=['GET'])
+def get_group_by_group_id():
+    data = request.get_json()
+    group_id = data['groupId']
+    group = Group.query.get(group_id)
+    if not group:
+        return jsonify({"error": "Group not found"}), 404
+    logging.debug("Recipes below")
+    logging.debug(group.recipes)
+    return jsonify(group.to_dict()), 200
+
 @main.route('/groups/create', methods=['POST'])
 def add_group():
-    logging.debug('Reached route')
     data = request.get_json()
     logging.debug(data)
     name = data['info']
@@ -89,14 +99,30 @@ def get_groups():
 def add_recipe():
     data = request.get_json()
     new_recipe = Recipe(name=data['name'], description=data['description'], user_id=data['user_id'], group_id=data.get('group_id'))
+    logging.debug("New recipe: "+new_recipe.name)
+    group = Group.query.filter_by(id=data.get('group_id')).first()
+    group.recipes.append(new_recipe)
+    logging.debug("Group: "+group.name)
+    logging.debug("Number of recipes in group: "+str(len(group.recipes)))
     db.session.add(new_recipe)
     db.session.commit()
     return jsonify(new_recipe.to_dict()), 201
 
-@main.route('/recipes', methods=['GET'])
+@main.route('/recipes/all', methods=['GET'])
 def get_recipes():
     recipes = Recipe.query.all()
     return jsonify([recipe.to_dict() for recipe in recipes])
+
+@main.route('/recipes', methods=['GET'])
+def get_recipes_by_group():
+    data = request.get_json()
+    group_id = data['groupId']
+    group = Group.query.get(group_id)
+    if not group:
+        return jsonify({"error": "Group not found"}), 404
+    recipes = group.recipes
+    logging.debug(recipes[0].to_dict())
+    return jsonify([recipe.to_dict() for recipe in recipes]), 200
 
 @main.route('/reviews', methods=['POST'])
 def add_review():

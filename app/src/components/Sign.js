@@ -87,8 +87,10 @@ function Sign(props) {
           },
           body: JSON.stringify(data),
         });
-        const userId = await response.json().id;
-        console.log(response.json());
+        console.log("Type of response: " + typeof response);
+        console.log("Response: " + response);
+        const d = await response.json();
+        const userId = d.id;
         console.log("User id after signing up:" + userId);
         setUserId(userId);
         setSign(true);

@@ -8,6 +8,7 @@ function Main(props) {
   const [groups, setGroups] = useState([]);
   const userId = props.userId;
   const [createJoin, setCreateJoin] = useState(false);
+  const [selectedGroup, setSelectedGroup] = useState(null);
   if (createJoin) {
     return (
       <CreateJoinGroup
@@ -26,8 +27,15 @@ function Main(props) {
           setCreateJoin={setCreateJoin}
           groups={groups}
           setGroups={setGroups}
+          selectedGroup={selectedGroup}
+          setSelectedGroup={setSelectedGroup}
         />
-        <SelectedGroup groupInfo={groupInfo} setGroupInfo={setGroupInfo} />
+        <SelectedGroup
+          groupInfo={groupInfo}
+          setGroupInfo={setGroupInfo}
+          selectedGroup={selectedGroup}
+          setSelectedGroup={setSelectedGroup}
+        />
       </div>
     );
   }
