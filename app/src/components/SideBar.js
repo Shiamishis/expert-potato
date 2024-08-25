@@ -44,6 +44,14 @@ function SideBar(props) {
   };
   const groups = props.groups;
   const setGroups = props.setGroups;
+  if (selectedGroup != null) {
+    for (let i = 0; i < groups.length; i++) {
+      if (groups[i].name === selectedGroup.name) {
+        setSelectedGroup(groups[i]);
+        break;
+      }
+    }
+  }
   const getGroupsOfUser = async () => {
     console.log("Reached getGroupsOfUser method");
     const response = await fetch(`/users/groups?user_id=${userId}`, {
