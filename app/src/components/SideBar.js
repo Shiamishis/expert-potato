@@ -44,6 +44,14 @@ function SideBar(props) {
   };
   const groups = props.groups;
   const setGroups = props.setGroups;
+  if (selectedGroup != null) {
+    for (let i = 0; i < groups.length; i++) {
+      if (groups[i].name === selectedGroup.name) {
+        setSelectedGroup(groups[i]);
+        break;
+      }
+    }
+  }
   const getGroupsOfUser = async () => {
     console.log("Reached getGroupsOfUser method");
     const response = await fetch(`/users/groups?user_id=${userId}`, {
@@ -66,7 +74,6 @@ function SideBar(props) {
   function goToCreateJoin() {
     setCreateJoin(true);
   }
-
   return (
     <div style={styles.sidebar}>
       <div style={{ display: "flex", alignContent: "center" }}>
@@ -94,7 +101,10 @@ function SideBar(props) {
                   <button
                     style={{
                       ...styles.button,
-                      ...(selectedGroup === group ? styles.selectedButton : {}),
+                      ...(selectedGroup != null &&
+                      selectedGroup.name === group.name
+                        ? styles.selectedButton
+                        : {}),
                     }}
                     onClick={() => selectGroup(index)}
                   >

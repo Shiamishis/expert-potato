@@ -2,11 +2,10 @@ import React from "react";
 import Recipe from "./Recipe";
 
 function SelectedGroup(props) {
-  const groupInfo = props.groupInfo;
-  const setGroupInfo = props.setGroupInfo;
   const group = props.selectedGroup;
+  const setAddRecipe = props.setAddRecipe;
   function addRecipe(recipe) {
-    return;
+    setAddRecipe(true);
   }
   console.log("Group: " + group);
   let recipes = [];
@@ -14,7 +13,6 @@ function SelectedGroup(props) {
     recipes = [];
   } else {
     recipes = group.recipes;
-    console.log("Recipes: " + recipes);
     if (recipes == null || recipes.length === undefined) {
       recipes = [];
     }
@@ -22,16 +20,21 @@ function SelectedGroup(props) {
   console.log("Recipes: " + recipes);
   return (
     <>
+      <div>
+        {recipes.map((recipe, index) => (
+          <Recipe recipe={recipe} />
+        ))}
+      </div>
       <div
         style={{
           display: "flex",
-          alignItems: "flex-end",
+          alignItems: "flex-start",
           flexDirection: "column",
         }}
       >
         <button
           style={{
-            marginRight: "10px",
+            marginLeft: "1000px",
             border: "none",
             borderRadius: "50%",
             backgroundColor: "lightblue",
@@ -42,11 +45,6 @@ function SelectedGroup(props) {
         >
           +
         </button>
-      </div>
-      <div>
-        {recipes.map((recipe, index) => (
-          <Recipe recipe={recipe} />
-        ))}
       </div>
     </>
   );

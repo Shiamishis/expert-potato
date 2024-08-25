@@ -98,9 +98,9 @@ def get_groups():
 @main.route('/recipes', methods=['POST'])
 def add_recipe():
     data = request.get_json()
-    new_recipe = Recipe(name=data['name'], description=data['description'], user_id=data['user_id'], group_id=data.get('group_id'))
-    logging.debug("New recipe: "+new_recipe.name)
-    group = Group.query.filter_by(id=data.get('group_id')).first()
+    new_recipe = Recipe(name=data['name'], description=data['description'], user_id=data['userId'], group_id=data.get('groupId'))
+    logging.debug("New recipe's group_id: "+str(new_recipe.group_id))
+    group = Group.query.filter_by(id=data.get('groupId')).first()
     group.recipes.append(new_recipe)
     logging.debug("Group: "+group.name)
     logging.debug("Number of recipes in group: "+str(len(group.recipes)))
