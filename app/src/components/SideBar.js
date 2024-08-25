@@ -66,7 +66,6 @@ function SideBar(props) {
   function goToCreateJoin() {
     setCreateJoin(true);
   }
-
   return (
     <div style={styles.sidebar}>
       <div style={{ display: "flex", alignContent: "center" }}>
@@ -94,7 +93,10 @@ function SideBar(props) {
                   <button
                     style={{
                       ...styles.button,
-                      ...(selectedGroup === group ? styles.selectedButton : {}),
+                      ...(selectedGroup != null &&
+                      selectedGroup.name === group.name
+                        ? styles.selectedButton
+                        : {}),
                     }}
                     onClick={() => selectGroup(index)}
                   >
