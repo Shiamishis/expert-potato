@@ -25,27 +25,21 @@ function SelectedGroup(props) {
           <Recipe recipe={recipe} />
         ))}
       </div>
-      <div
+      <button
         style={{
-          display: "flex",
-          alignItems: "flex-start",
-          flexDirection: "column",
+          position: "absolute",
+          top: "0",
+          right: "0",
+          border: "none",
+          borderRadius: "50%",
+          backgroundColor: "lightblue",
+          height: "24px",
+          width: "24px",
         }}
+        onClick={addRecipe}
       >
-        <button
-          style={{
-            marginLeft: "1000px",
-            border: "none",
-            borderRadius: "50%",
-            backgroundColor: "lightblue",
-            height: "24px",
-            width: "24px",
-          }}
-          onClick={addRecipe}
-        >
-          +
-        </button>
-      </div>
+        +
+      </button>
     </>
   );
 }

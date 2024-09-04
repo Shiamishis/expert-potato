@@ -40,8 +40,8 @@ function AddRecipe(props) {
           backgroundColor: "transparent",
           border: "none",
           position: "absolute",
-          marginTop: "10px",
-          marginLeft: "10px",
+          top: "0",
+          left: "0",
         }}
       >
         <img src={homeButton} alt="Home Button" style={{ height: "13px" }} />
