@@ -102,6 +102,20 @@ input::placeholder {
 .potato {
   transition: transform 0.5s ease-in-out;
 }
+.settings {
+  margin-top: 8px;
+  cursor: pointer;
+  height: 75%;
+}
+.settings:hover {
+  transform:rotate(180deg);
+  transition-duration:1s;
+}
+.profile {
+  margin-top: 10px;
+  cursor: pointer;
+  height: 65%;
+}
 button {
   cursor: pointer;
 }

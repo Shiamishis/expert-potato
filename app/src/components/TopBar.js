@@ -1,9 +1,21 @@
 import React from "react";
+import settings from "../images/settings.svg";
+import profile from "../images/profile.svg";
 
 function TopBar() {
   return (
     <>
-      <h1>This is the top bar</h1>
+      <div
+        style={{
+          backgroundColor: "lightblue",
+          height: "75px",
+          display: "flex",
+          flexDirection: "row-reverse",
+        }}
+      >
+        <img className={"settings"} src={settings} alt={"Settings"} />
+        <img className={"profile"} src={profile} alt={"Profile"} />
+      </div>
     </>
   );
 }
