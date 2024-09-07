@@ -3,6 +3,7 @@ import SideBar from "./SideBar";
 import SelectedGroup from "./SelectedGroup";
 import CreateJoinGroup from "./CreateJoinGroup";
 import AddRecipe from "./AddRecipe";
+import TopBar from "./TopBar";
 
 function Main(props) {
   const [groupInfo, setGroupInfo] = useState("");
@@ -33,23 +34,26 @@ function Main(props) {
     );
   } else {
     return (
-      <div style={{ display: "flex", height: "100vh" }}>
-        <SideBar
-          setGroupInfo={setGroupInfo}
-          userId={userId}
-          setCreateJoin={setCreateJoin}
-          groups={groups}
-          setGroups={setGroups}
-          selectedGroup={selectedGroup}
-          setSelectedGroup={setSelectedGroup}
-        />
-        <SelectedGroup
-          groupInfo={groupInfo}
-          setGroupInfo={setGroupInfo}
-          selectedGroup={selectedGroup}
-          setSelectedGroup={setSelectedGroup}
-          setAddRecipe={setAddRecipe}
-        />
+      <div>
+        <TopBar />
+        <div style={{ display: "flex", height: "100vh" }}>
+          <SideBar
+            setGroupInfo={setGroupInfo}
+            userId={userId}
+            setCreateJoin={setCreateJoin}
+            groups={groups}
+            setGroups={setGroups}
+            selectedGroup={selectedGroup}
+            setSelectedGroup={setSelectedGroup}
+          />
+          <SelectedGroup
+            groupInfo={groupInfo}
+            setGroupInfo={setGroupInfo}
+            selectedGroup={selectedGroup}
+            setSelectedGroup={setSelectedGroup}
+            setAddRecipe={setAddRecipe}
+          />
+        </div>
       </div>
     );
   }

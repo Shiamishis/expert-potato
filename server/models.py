@@ -17,6 +17,8 @@ class User(db.Model):
     email = db.Column(db.String(80), nullable=False)
     password = db.Column(db.String(80), nullable=False)
     groups = db.relationship('Group', secondary=user_group, backref=db.backref('users', lazy=True))
+    reviews = db.relationship('Review', backref='reviews', lazy=True)
+    ratings = db.relationship('Rating', backref='ratings', lazy=True)
 
     def __init__(self, username, email, password):
         self.username = username
@@ -63,6 +65,7 @@ class Recipe(db.Model):
 
 class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     text = db.Column(db.String(200), nullable=False)
     recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'), nullable=False)
 
@@ -72,6 +75,7 @@ class Review(db.Model):
 
 class Rating(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     stars = db.Column(db.Integer, nullable=False)
     recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'), nullable=False)
 

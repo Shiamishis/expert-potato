@@ -19,7 +19,7 @@ function SelectedGroup(props) {
   }
   console.log("Recipes: " + recipes);
   return (
-    <>
+    <div>
       <div>
         {recipes.map((recipe, index) => (
           <Recipe recipe={recipe} />
@@ -30,6 +30,8 @@ function SelectedGroup(props) {
           position: "absolute",
           top: "0",
           right: "0",
+          marginTop: "85px",
+          marginRight: "25px",
           border: "none",
           borderRadius: "50%",
           backgroundColor: "lightblue",
@@ -40,7 +42,7 @@ function SelectedGroup(props) {
       >
         +
       </button>
-    </>
+    </div>
   );
 }
 
