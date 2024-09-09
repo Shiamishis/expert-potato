@@ -9,6 +9,7 @@ function SideBar(props) {
     props.selectedGroup,
     props.setSelectedGroup,
   ];
+  const [searchTerm, setSearchTerm] = useState("");
   const styles = {
     sidebar: {
       width: "35vh",
@@ -44,6 +45,7 @@ function SideBar(props) {
   };
   const groups = props.groups;
   const setGroups = props.setGroups;
+  const [filteredGroups, setFilteredGroups] = useState(groups);
   if (selectedGroup != null) {
     for (let i = 0; i < groups.length; i++) {
       if (groups[i].name === selectedGroup.name) {
@@ -70,7 +72,19 @@ function SideBar(props) {
     setSelectedGroup(groups[index]);
     setGroupInfo("This is " + groups[index]["name"]);
   }
-
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+  useEffect(() => {
+    if (searchTerm === "") {
+      setFilteredGroups(groups);
+    } else {
+      const filtered = groups.filter((group) =>
+        group.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredGroups(filtered);
+    }
+  }, [searchTerm, groups]);
   function goToCreateJoin() {
     setCreateJoin(true);
   }
@@ -92,10 +106,18 @@ function SideBar(props) {
           +
         </button>
       </div>
+      <form>
+        <label>Search for a group:</label>
+        <input
+          value={searchTerm}
+          onChange={handleSearchChange}
+          style={{ width: "90%" }}
+        ></input>
+      </form>
       <ul style={styles.list}>
-        {groups === []
+        {filteredGroups === []
           ? []
-          : groups.map((group, index) => {
+          : filteredGroups.map((group, index) => {
               return (
                 <li key={index} style={styles.listItem}>
                   <button
