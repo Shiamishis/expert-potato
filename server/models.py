@@ -60,7 +60,7 @@ class Recipe(db.Model):
 
     def to_dict(self):
         return {"id": self.id, "name": self.name, "description": self.description, "user_id": self.user_id,
-                "group_id": self.group_id}
+                "group_id": self.group_id, "reviews": [review.to_dict() for review in self.reviews]}
 
 
 class Review(db.Model):

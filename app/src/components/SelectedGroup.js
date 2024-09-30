@@ -4,6 +4,7 @@ import Recipe from "./Recipe";
 function SelectedGroup(props) {
   const group = props.selectedGroup;
   const setAddRecipe = props.setAddRecipe;
+  const userId = props.userId;
   function addRecipe(recipe) {
     setAddRecipe(true);
   }
@@ -22,7 +23,7 @@ function SelectedGroup(props) {
     <div>
       <div>
         {recipes.map((recipe, index) => (
-          <Recipe recipe={recipe} />
+          <Recipe recipe={recipe} userId={userId} />
         ))}
       </div>
       <button
