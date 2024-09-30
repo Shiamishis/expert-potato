@@ -52,6 +52,7 @@ function Main(props) {
             selectedGroup={selectedGroup}
             setSelectedGroup={setSelectedGroup}
             setAddRecipe={setAddRecipe}
+            userId={userId}
           />
         </div>
       </div>

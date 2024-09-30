@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import Review from "./Review";
 import commentIcon from "../images/comment.svg";
-import AddComment from "./AddComment";
+import AddReview from "./AddReview";
 
 function Recipe(props) {
   const recipe = props.recipe;
+  const userId = props.userId;
   const name = recipe["name"];
   const description = recipe["description"];
-  const reviews = recipe["reviews"];
+  const [reviews, setReviews] = useState(recipe["reviews"]);
   const [addComment, setAddComment] = useState(false);
   function goToAddComment() {
     setAddComment(!addComment);
@@ -31,7 +32,14 @@ function Recipe(props) {
       >
         <img src={commentIcon} alt="Comment icon" style={{ height: "10px" }} />
       </button>
-      {addComment ? <AddComment /> : null}
+      {addComment ? (
+        <AddReview
+          recipeId={recipe.id}
+          userId={userId}
+          reviews={reviews}
+          setReviews={setReviews}
+        />
+      ) : null}
       <hr />
     </div>
   );

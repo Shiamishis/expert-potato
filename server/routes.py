@@ -127,7 +127,7 @@ def get_recipes_by_group():
 @main.route('/reviews', methods=['POST'])
 def add_review():
     data = request.get_json()
-    new_review = Review(text=data['text'], recipe_id=data['recipe_id'])
+    new_review = Review(text=data['text'], recipe_id=data['recipeId'], user_id=data['userId'])
     db.session.add(new_review)
     db.session.commit()
     return jsonify(new_review.to_dict()), 201
