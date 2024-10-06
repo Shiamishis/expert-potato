@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Review from "./Review";
 import commentIcon from "../images/comment.svg";
+import star from "../images/star.svg";
+import filled_star from "../images/filled_star.svg";
 import AddReview from "./AddReview";
 
 function Recipe(props) {
@@ -10,8 +12,27 @@ function Recipe(props) {
   const description = recipe["description"];
   const [reviews, setReviews] = useState(recipe["reviews"]);
   const [addComment, setAddComment] = useState(false);
+  const [hoveredStar, setHoveredStar] = useState(-1);
+
   function goToAddComment() {
     setAddComment(!addComment);
+  }
+
+  async function addRating() {
+    //data
+    const data = {
+      userId,
+      recipeId: recipe.id,
+      rating: hoveredStar + 1,
+    };
+    //response
+    const response = await fetch("/ratings", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
   }
   return (
     <div>
@@ -20,6 +41,20 @@ function Recipe(props) {
       {reviews.map((review) => (
         <Review review={review} />
       ))}
+      {Array(5)
+        .fill(0)
+        .map((_, index) => (
+          <img
+            key={index}
+            src={index <= hoveredStar ? filled_star : star}
+            alt="Star"
+            style={{ height: "15px", cursor: "pointer" }}
+            onMouseEnter={() => setHoveredStar(index)}
+            onMouseLeave={() => setHoveredStar(-1)}
+            onClick={addRating}
+          />
+        ))}
+      <br />
       <button
         onClick={goToAddComment}
         className="home-button"
