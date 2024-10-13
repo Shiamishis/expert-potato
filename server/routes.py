@@ -140,7 +140,7 @@ def get_reviews():
 @main.route('/ratings', methods=['POST'])
 def add_rating():
     data = request.get_json()
-    new_rating = Rating(stars=data['stars'], recipe_id=data['recipe_id'])
+    new_rating = Rating(stars=data['stars'], recipe_id=data['recipeId'], user_id=data['userId'])
     db.session.add(new_rating)
     db.session.commit()
     return jsonify(new_rating.to_dict()), 201

@@ -108,8 +108,8 @@ input::placeholder {
   height: 75%;
 }
 .settings:hover {
-  transform:rotate(180deg);
-  transition-duration:1s;
+  transform: rotate(180deg);
+  transition-duration: 1s;
 }
 .profile {
   margin-top: 10px;
