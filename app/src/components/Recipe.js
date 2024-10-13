@@ -13,6 +13,7 @@ function Recipe(props) {
   const [reviews, setReviews] = useState(recipe["reviews"]);
   const [addComment, setAddComment] = useState(false);
   const [hoveredStar, setHoveredStar] = useState(-1);
+  const [rated, setRated] = useState(false);
 
   function goToAddComment() {
     setAddComment(!addComment);
@@ -23,7 +24,7 @@ function Recipe(props) {
     const data = {
       userId,
       recipeId: recipe.id,
-      rating: hoveredStar + 1,
+      stars: hoveredStar + 1,
     };
     //response
     const response = await fetch("/ratings", {
@@ -33,6 +34,8 @@ function Recipe(props) {
       },
       body: JSON.stringify(data),
     });
+    setHoveredStar(hoveredStar);
+    setRated(true);
   }
   return (
     <div>
@@ -49,8 +52,8 @@ function Recipe(props) {
             src={index <= hoveredStar ? filled_star : star}
             alt="Star"
             style={{ height: "15px", cursor: "pointer" }}
-            onMouseEnter={() => setHoveredStar(index)}
-            onMouseLeave={() => setHoveredStar(-1)}
+            onMouseEnter={() => !rated && setHoveredStar(index)}
+            onMouseLeave={() => !rated && setHoveredStar(-1)}
             onClick={addRating}
           />
         ))}
